@@ -7,9 +7,11 @@ from markupsafe import escape
 from .renderer import BaseDocumentRenderer, BaseTextRenderer
 
 
-def _elem(out, elem_name, class_name, contents):
+def _elem(out, elem_name, class_name, contents, identifier=None):
     f = out.write
     f('<%s' % elem_name)
+    if identifier:
+        f(' id="{%s}"' % identifier)
     if class_name:
         f(' class="jouvence-%s"' % class_name)
     f('>')
@@ -102,38 +104,38 @@ class HtmlDocumentRenderer(BaseDocumentRenderer):
         out.write('</div>\n')
         self.write_pagebreak(out)
 
-    def write_scene_heading(self, text, out):
-        _elem(out, 'p', 'scene-heading', text)
+    def write_scene_heading(self, text, out, identifier=None):
+        _elem(out, 'p', 'scene-heading', text, identifier)
 
-    def write_action(self, text, out):
-        _elem(out, 'p', 'action', _br(text, True))
+    def write_action(self, text, out, identifier=None):
+        _elem(out, 'p', 'action', _br(text, True), identifier)
 
-    def write_centeredaction(self, text, out):
-        _elem(out, 'p', 'action-centered', _br(text, True))
+    def write_centeredaction(self, text, out, identifier=None):
+        _elem(out, 'p', 'action-centered', _br(text, True), identifier)
 
-    def write_character(self, text, out):
-        _elem(out, 'p', 'character', text)
+    def write_character(self, text, out, identifier=None):
+        _elem(out, 'p', 'character', text, identifier)
 
-    def write_dialog(self, text, out):
-        _elem(out, 'p', 'dialog', _br(text))
+    def write_dialog(self, text, out, identifier=None):
+        _elem(out, 'p', 'dialog', _br(text), identifier)
 
-    def write_parenthetical(self, text, out):
-        _elem(out, 'p', 'parenthetical', text)
+    def write_parenthetical(self, text, out, identifier=None):
+        _elem(out, 'p', 'parenthetical', text, identifier)
 
-    def write_transition(self, text, out):
-        _elem(out, 'p', 'transition', text)
+    def write_transition(self, text, out, identifier=None):
+        _elem(out, 'p', 'transition', text, identifier)
 
-    def write_lyrics(self, text, out):
-        _elem(out, 'p', 'lyrics', _br(text, True))
+    def write_lyrics(self, text, out, identifier=None):
+        _elem(out, 'p', 'lyrics', _br(text, True), identifier)
 
     def write_pagebreak(self, out):
         out.write('<hr/>\n')
 
-    def write_section(self, depth, text, out):
-        _elem(out, 'p', 'section', '%s %s' % ('#' * depth, text))
+    def write_section(self, depth, text, out, identifier=None):
+        _elem(out, 'p', 'section', '%s %s' % ('#' * depth, text), identifier)
 
-    def write_synopsis(self, text, out):
-        _elem(out, 'p', 'synopsis', text)
+    def write_synopsis(self, text, out, identifier=None):
+        _elem(out, 'p', 'synopsis', text, identifier)
 
     def _render_footnotes(self, out):
         for i, n in enumerate(self.text_renderer.notes):

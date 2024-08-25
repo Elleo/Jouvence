@@ -75,7 +75,7 @@ class BaseDocumentRenderer:
             elif p.type == TYPE_SECTION:
                 rdr_func(p.depth, self._tr(p.text), out)
             else:
-                rdr_func(self._tr(p.text), out)
+                rdr_func(self._tr(p.text), out, p.identifier)
 
     def write_header(self, doc, out):
         pass
@@ -86,37 +86,37 @@ class BaseDocumentRenderer:
     def write_title_page(self, values, out):
         raise NotImplementedError()
 
-    def write_scene_heading(self, text, out):
+    def write_scene_heading(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_action(self, text, out):
+    def write_action(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_centeredaction(self, text, out):
+    def write_centeredaction(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_character(self, text, out):
+    def write_character(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_dialog(self, text, out):
+    def write_dialog(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_parenthetical(self, text, out):
+    def write_parenthetical(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_transition(self, text, out):
+    def write_transition(self, text, out, identifier):
         raise NotImplementedError()
 
-    def write_lyrics(self, text, out):
+    def write_lyrics(self, text, out, identifier):
         raise NotImplementedError()
 
     def write_pagebreak(self, out):
         raise NotImplementedError()
 
-    def write_section(self, depth, text, out):
+    def write_section(self, depth, text, out, identifier):
         raise NotImplementedError()
 
-    def write_synopsis(self, text, out):
+    def write_synopsis(self, text, out, identifier):
         raise NotImplementedError()
 
 

@@ -12,11 +12,13 @@ class JouvenceDocument:
     """
     def __init__(self):
         self.title_values = {}
+        self.next_id = 1
         self.scenes = []
 
     def addScene(self, header=None):
         """Adds a scene with the specified header."""
-        s = JouvenceScene()
+        s = JouvenceScene(f"s{self.next_id}")
+        self.next_id += 1
         if header:
             s.header = header
         self.scenes.append(s)
@@ -51,7 +53,9 @@ class JouvenceDocument:
 
 class JouvenceScene:
     """A scene in a screenplay."""
-    def __init__(self):
+    def __init__(self, identifier):
+        self.identifier = identifier
+        self.next_id = 1
         self.header = None
         self.paragraphs = []
         self._adders = {}
@@ -67,7 +71,8 @@ class JouvenceScene:
                                    'TYPE_%s' % add_type_name.upper())
 
                 def _type_adder(_text):
-                    new_p = JouvenceSceneElement(add_type, _text)
+                    new_p = JouvenceSceneElement(add_type, _text, f"{self.identifier}_p{self.next_id}")
+                    self.next_id += 1
                     self.paragraphs.append(new_p)
                     return new_p
 
@@ -79,7 +84,8 @@ class JouvenceScene:
 
     def addPageBreak(self):
         """Adds a page break (paragraph with ``TYPE_PAGEBREAK`` type)."""
-        self.paragraphs.append(JouvenceSceneElement(TYPE_PAGEBREAK, None))
+        self.paragraphs.append(JouvenceSceneElement(TYPE_PAGEBREAK, None, f"{self.identifier}_p{self.next_id}"))
+        self.next_id += 1
 
     def addSection(self, depth, text):
         """Adds a section (a :class:`~JouvenceSceneSection` instance)."""
@@ -96,9 +102,10 @@ class JouvenceSceneElement:
     """An element of a screenplay scene, _e.g._ an action, a dialogue
     line, a parenthetical, etc.
     """
-    def __init__(self, el_type, text):
+    def __init__(self, el_type, text, identifier):
         self.type = el_type
         self.text = text
+        self.identifier = identifier
 
     def __str__(self):
         return '%s: %s' % (
